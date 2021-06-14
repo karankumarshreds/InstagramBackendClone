@@ -1,5 +1,7 @@
+import { v4 as uuid } from 'uuid';
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -21,9 +23,21 @@ export class User extends BaseEntity {
   @Column()
   role: string;
 
+  @Column({ type: 'uuid' })
+  uuid: string;
+
+  @BeforeInsert()
+  createUUID() {
+    this.uuid = uuid();
+  }
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  toJSON() {
+    return { ...this, id: undefined };
+  }
 }
