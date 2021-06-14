@@ -18,4 +18,19 @@ router.post('/api/users', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @method GET
+ * @action Returns the users
+ */
+router.get('/api/users', async (req: Request, res: Response) => {
+  const { name, email, role } = req.body;
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    console.error(error, '❌'); //
+    return res.sendStatus(500);
+  }
+});
+
 export { router as UserRouter };
